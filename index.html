@@ -132,6 +132,12 @@ h2{font-size:30px;margin:6px 0 6px}
 .slot[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--on)}
 .cta:disabled{opacity:.4;cursor:not-allowed}
 </style>
+<!-- Za_manic: Meta Pixel. PIXEL_ID ni Events Manager'dagi haqiqiy ID bilan almashtiring; almashtirilmaguncha o'chiq turadi. -->
+<script>
+(function(){var PIXEL_ID='YOUR_PIXEL_ID';if(PIXEL_ID==='YOUR_PIXEL_ID')return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init',PIXEL_ID);fbq('track','PageView');})();
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -372,7 +378,7 @@ function form(){
     if(!C.time){$("#es").textContent="Выберите время";ok=false}
     if(C.name.trim().length<2){$("#en").textContent="Укажите имя";ok=false}
     if(C.phone.replace(/\D/g,"").length!==12){$("#ep").textContent="Введите номер полностью";ok=false}
-    if(ok)done();else{const e=[...document.querySelectorAll(".e")].find(x=>x.textContent);e&&e.scrollIntoView({block:"center",behavior:"smooth"})}};
+    if(ok){try{const T=TIERS.find(x=>x.id===C.tier);ZMTracker.submit({name:C.name.trim(),phone:C.phone,service:total().L.map(x=>x[0]).join(', '),master:(T?T.name:'')+(C.person!=='Любой'?', '+C.person:''),desired_time:when()})}catch(e){}done()}else{const e=[...document.querySelectorAll(".e")].find(x=>x.textContent);e&&e.scrollIntoView({block:"center",behavior:"smooth"})}};
 }
 function mask(v){let d=v.replace(/\D/g,"");if(d.startsWith("998"))d=d.slice(3);d=d.slice(0,9);if(!d.length)return"+998 (";
   let o="+998 ("+d.slice(0,2);if(d.length>=2)o+=")";if(d.length>2)o+=" "+d.slice(2,5);if(d.length>5)o+="-"+d.slice(5,7);if(d.length>7)o+="-"+d.slice(7,9);return o}
@@ -402,5 +408,9 @@ $("#back").onclick=()=>{
 };
 start();
 </script>
+<!-- Za_manic analitika: leadni serverga yuborish (UTM, ad_id, Pixel). Honeypot: odam ko'rmaydi, bot to'ldiradi. -->
+<input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;width:0;height:0">
+<script>window.ZM_CONFIG={lp:"lp2",api:"https://za-manic.projects-team24.uz/api/leads/"};</script>
+<script src="https://za-manic.projects-team24.uz/static/tracker.js" defer></script>
 </body>
 </html>
